@@ -1,24 +1,48 @@
-import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Home from './components/pages/Home';
+import Sidebar from './components/Sidebar';
+import Navbar from './components/Navbar';
+
+const useStyles = makeStyles(() => ({
+  root: {
+    display: 'flex',
+  },
+  content: {
+    flexGrow: 1,
+    height: '100vh',
+    overflow: 'auto',
+  }
+}));
 
 function App() {
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className={classes.root}>
+        <CssBaseline />
+        <Navbar open={open} handleDrawerOpen={handleDrawerOpen} />
+        <Sidebar open={open} handleDrawerClose={handleDrawerClose} />
+        <main className={classes.content}>
+          <Switch>
+            <Route path="/" exact>
+              <Home />
+            </Route>
+          </Switch>
+        </main>
+      </div>
+    </Router>
   );
 }
 
